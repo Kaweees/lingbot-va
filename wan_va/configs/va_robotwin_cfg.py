@@ -1,13 +1,17 @@
 # Copyright 2024-2025 The Robbyant Team Authors. All rights reserved.
 from easydict import EasyDict
+from pathlib import Path
+import os
 
 from .shared_config import va_shared_cfg
 
 va_robotwin_cfg = EasyDict(__name__='Config: VA robotwin')
 va_robotwin_cfg.update(va_shared_cfg)
 
-va_robotwin_cfg.wan22_pretrained_model_name_or_path = "/path/to/pretrained/model"
-
+va_robotwin_cfg.wan22_pretrained_model_name_or_path = os.environ.get(
+    "LINGBOT_VA_MODEL_PATH",
+    str(Path(__file__).resolve().parents[2] / "models" / "lingbot-va-posttrain-robotwin"),
+)
 va_robotwin_cfg.attn_window = 72
 va_robotwin_cfg.frame_chunk_size = 2
 va_robotwin_cfg.env_type = 'robotwin_tshape'
